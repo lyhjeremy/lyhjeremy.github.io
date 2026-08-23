@@ -200,8 +200,8 @@
       "slug": "skill-compass",
       "kicker": "No. 01 / applied AI",
       "accent": "oxide",
-      "headline": "Where do you actually stand?",
-      "deck": "SkillCompass runs calibrated two-minute skill checks across 40+ fields, scores them Elo-style against real quiz responses, and hands back a live percentile, a knowledge map and a personalized study guide. Full stack, $0 a month to run.",
+      "headline": "Skill checks scored like chess ratings",
+      "deck": "SkillCompass gives two-minute quizzes in 40-plus fields, rates them Elo-style on real response data, and returns a percentile, a knowledge map and a study plan. Runs full stack on $0 a month.",
       "figure": "assets/shots/skill-compass.png",
       "figcap": "SkillCompass, captured from the live site on 2026-08-23."
     },
@@ -210,20 +210,22 @@
         "slug": "leeway",
         "kicker": "No. 02 / decision tools",
         "accent": "ink",
-        "headline": "Trip planning for the battery your EV actually has",
-        "text": "Elevation- and weather-adjusted range modeling, charger stops under a hard reserve constraint, and rerouting that spends a set detour budget to avoid unprotected left turns."
+        "headline": "Route planning for a five-year-old battery",
+        "text": "An EV trip planner with range modeling adjusted for elevation and weather, charger stops under a hard reserve, and a detour budget spent avoiding unprotected left turns."
       },
       {
         "slug": "world-record-half-lives",
         "kicker": "No. 03 / survival analysis",
         "accent": "pine",
+        "thumb": "assets/shots/band/world-record-half-lives.png",
         "headline": "How long does a world record live?",
-        "text": "Kaplan-Meier and Cox regression over ~250 track-and-field record reigns. Median half-life: about 1.5 years, and the model names which current records look most exposed."
+        "text": "Kaplan-Meier and Cox regression over ~250 track-and-field record reigns. Median half-life: about 1.5 years, with an estimate of which current records fall next."
       },
       {
         "slug": "marathon-heat-tax",
         "kicker": "No. 04 / regression",
         "accent": "pine",
+        "thumb": "assets/shots/band/marathon-heat-tax.png",
         "headline": "A hot day costs the typical Boston runner 31 minutes",
         "text": "Fourteen Boston Marathons paired with race-day weather: the field median slows roughly one minute per degree Fahrenheit (r = 0.86)."
       },
@@ -231,37 +233,102 @@
         "slug": "cantonese-learner-v2",
         "kicker": "No. 05 / language",
         "accent": "oxide",
+        "thumb": "assets/shots/band/cantonese-learner-v2.png",
         "headline": "Speaking Cantonese from today's news",
         "text": "Hong Kong news rewritten to spoken register with a review pass, neural zh-HK audio, jyutping, tap-to-compare and speech grading. Costs nothing to run."
       }
     ],
     "series": {
       "title": "The fine-tuning series",
-      "intro": "Four photo-to-structured-data apps, each pairing an LLM pipeline with a small model fine-tuned locally (LoRA) on the same task, benchmarked base vs. fine-tuned vs. Claude zero-shot.",
+      "intro": "Four photo-to-structured-data apps. Each pairs an LLM pipeline with a small model fine-tuned locally (LoRA) on the same task, benchmarked base vs. fine-tuned vs. Claude zero-shot.",
       "rows": [
         {
           "slug": "cellar-scanner",
           "name": "Cellar Scanner",
           "stat": "27.7% vs 23.0%",
+          "thumb": "assets/shots/band/cellar-scanner.png",
           "note": "fine-tuned LoRA beats Claude zero-shot at top-1 grape variety from a blind tasting note"
         },
         {
           "slug": "menu-decoder",
           "name": "Menu Decoder",
           "stat": "99.3%",
+          "thumb": "assets/shots/band/menu-decoder.png",
           "note": "cuisine accuracy from a bare dish name; 69.3% recall across 14 allergens"
         },
         {
           "slug": "receipt-auditor",
           "name": "Receipt Auditor",
           "stat": "90.5%",
+          "thumb": "assets/shots/band/receipt-auditor.png",
           "note": "spend-category accuracy on held-out merchants; zero-shot Claude reaches 56.0%"
         },
         {
           "slug": "race-day-copilot",
           "name": "Race Day Copilot",
           "stat": "5 rules",
+          "thumb": "assets/shots/band/race-day-copilot.png",
           "note": "every km-by-km pacing plan is verified against five deterministic checks"
+        }
+      ]
+    },
+    "stories": {
+      "title": "Data stories",
+      "intro": "Findings from the analysis projects, each with the chart that carries it.",
+      "main": {
+        "slug": "wine-score-inflation",
+        "accent": "pine",
+        "figure": "assets/shots/hero/wine-score-inflation.png",
+        "figcap": "86% of wines land between 84 and 92. From the Wine Score Inflation story, captured 2026-08-23.",
+        "headline": "The 100-point wine scale is an 8-point scale",
+        "text": "Across 130,000 professional reviews, nothing scores below 80 and 86% land between 84 and 92. Price buys points, with steep diminishing returns."
+      },
+      "side": [
+        {
+          "slug": "marathon-pacing-decay",
+          "accent": "pine",
+          "figure": "assets/shots/hero/marathon-pacing-decay.png",
+          "figcap": "Median pace by 5K split, 31,655 Boston finishers.",
+          "headline": "The wall is real, and it sits near 30 km",
+          "text": "Per-5K splits hold flat for 30 km, then slow sharply; the median late-race slowdown is 15%."
+        },
+        {
+          "slug": "love-island-lexical-analysis",
+          "accent": "pine",
+          "figure": "assets/shots/hero/love-island-lexical-analysis.png",
+          "figcap": "The most frequent words on Love Island USA.",
+          "headline": "Love Island runs on 100 words",
+          "text": "61% of everything said on a season is the top 100 words; about 1,250 words cover 95% of the show."
+        }
+      ]
+    },
+    "numbers": {
+      "title": "By the numbers",
+      "tiles": [
+        {
+          "slug": "marathon-negative-split-myth",
+          "stat": "2.5%",
+          "label": "of 31,912 Boston finishers ran the negative split coaches preach"
+        },
+        {
+          "slug": "lyrics-complexity-over-time",
+          "stat": "2x",
+          "label": "hit songs doubled in length across 50 years of Billboard charts"
+        },
+        {
+          "slug": "marathon-performance-continuum",
+          "stat": "3:52",
+          "label": "median Boston finish; the field is log-normal"
+        },
+        {
+          "slug": "athletics-scoring-fairness",
+          "stat": "68 pts",
+          "label": "gap between the best- and worst-scoring events' elite ceilings"
+        },
+        {
+          "slug": "receipt-auditor",
+          "stat": "90.5%",
+          "label": "receipt categories called correctly by a model tuned on a laptop"
         }
       ]
     }

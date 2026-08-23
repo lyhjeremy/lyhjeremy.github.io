@@ -29,9 +29,15 @@ lead = f'''<article class="lead {L["accent"]}">
 <p class="story-links">{links(L["slug"])}</p>
 </article>'''
 
+def brief_img(b):
+    if "thumb" not in b:
+        return ""
+    return (f'<a href="{PAGES}{b["slug"]}/"><img src="{b["thumb"]}" '
+            f'alt="Hero of the {e(b["slug"])} page" loading="lazy"></a>')
+
 briefs = "".join(
     f'''<article class="brief {b["accent"]}">
-<p class="kicker">{e(b["kicker"])}</p>
+{brief_img(b)}<p class="kicker">{e(b["kicker"])}</p>
 <h3><a href="{PAGES}{b["slug"]}/">{e(b["headline"])}</a></h3>
 <p>{e(b["text"])}</p>
 <p class="story-links">{links(b["slug"], code=False)}</p>
@@ -40,7 +46,9 @@ briefs = "".join(
 # fine-tuning series
 S = ed["series"]
 series_rows = "".join(
-    f'<tr><td><strong><a href="{GH}{r["slug"]}">{e(r["name"])}</a></strong></td>'
+    f'<tr><td class="pic"><a href="{PAGES}{r["slug"]}/">'
+    f'<img src="{r["thumb"]}" alt="Hero of the {e(r["name"])} page" loading="lazy"></a></td>'
+    f'<td><strong><a href="{GH}{r["slug"]}">{e(r["name"])}</a></strong></td>'
     f'<td class="stat">{e(r["stat"])}</td><td>{e(r["note"])}</td>'
     f'<td class="links">{links(r["slug"], code=False)}</td></tr>'
     for r in S["rows"])
@@ -48,24 +56,54 @@ series = f'''<section class="band oxide" id="series">
 <div class="band-head"><span class="n">II</span><h2>{e(S["title"])}</h2></div>
 <p class="band-intro">{e(S["intro"])}</p>
 <div class="series-table-wrap"><table>
-<thead><tr><th>Project</th><th>Result</th><th>What the number is</th><th>Links</th></tr></thead>
+<thead><tr><th></th><th>Project</th><th>Result</th><th>Benchmark</th><th>Links</th></tr></thead>
 <tbody>{series_rows}</tbody></table></div>
+</section>'''
+
+
+# data stories band
+ST = ed["stories"]
+def story(x, heading):
+    return f'''<article class="story {x["accent"]}">
+<figure><a href="{PAGES}{x["slug"]}/"><img src="{x["figure"]}" alt="{e(x["figcap"])}" loading="lazy"></a>
+<figcaption>{e(x["figcap"])}</figcaption></figure>
+<{heading}><a href="{PAGES}{x["slug"]}/">{e(x["headline"])}</a></{heading[:2]}>
+<p>{e(x["text"])}</p>
+<p class="story-links">{links(x["slug"], code=False)}</p>
+</article>'''
+NUM = ed["numbers"]
+tiles = "".join(
+    f'<div class="tile"><a href="{PAGES}{t["slug"]}/">'
+    f'<span class="v">{e(t["stat"])}</span><span class="l">{e(t["label"])}</span></a></div>'
+    for t in NUM["tiles"])
+stories = f'''<section class="band pine" id="stories">
+<div class="band-head"><span class="n">III</span><h2>{e(ST["title"])}</h2></div>
+<p class="band-intro">{e(ST["intro"])}</p>
+<div class="stories">
+{story(ST["main"], "h3")}
+<div class="side">{"".join(story(x, "h3") for x in ST["side"])}</div>
+</div>
+<div class="numbers">{tiles}</div>
 </section>'''
 
 # full index of all projects
 groups = []
 for s in data["sections"]:
     cls = ACCENT.get(s["id"], "ink")
+    def thumb(slug):
+        if (ROOT / "assets/shots/thumbs" / f"{slug}.png").exists():
+            return f'<span class="th"><img src="assets/shots/thumbs/{slug}.png" alt="" loading="lazy" width="48" height="32"></span>'
+        return ""
     items = "".join(
-        f'<li><span class="t"><a href="{GH}{slug}">{e(name)}</a></span>'
+        f'<li>{thumb(slug)}<span class="t"><a href="{GH}{slug}">{e(name)}</a></span>'
         f'<span class="go">{links(slug, code=False)}</span></li>'
         for slug, name, _ in s["projects"])
     groups.append(f'<div class="group {cls}"><h3>{e(s["title"])} '
                   f'<span class="count">({len(s["projects"])})</span></h3><ul>{items}</ul></div>')
 n = sum(len(s["projects"]) for s in data["sections"])
 index = f'''<section class="band ink" id="index">
-<div class="band-head"><span class="n">III</span><h2>The full index</h2></div>
-<p class="band-intro">All {n} projects. Every one is live; every name links to its code, Live opens the project, Writeup opens the long-form page on how it works and what it found.</p>
+<div class="band-head"><span class="n">IV</span><h2>The full index</h2></div>
+<p class="band-intro">All {n} projects, grouped the way I file them. The name opens the code, Live opens the site, Writeup opens the long-form page.</p>
 <div class="index">{"".join(groups)}</div>
 </section>'''
 
@@ -92,6 +130,7 @@ try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.doc
   <span class="left">Applied analytics and machine learning</span>
   <nav aria-label="Page">
     <a href="#series">Series</a>
+    <a href="#stories">Stories</a>
     <a href="#index">Index</a>
     <a href="#colophon">About</a>
     <a class="gh-link" href="https://github.com/lyhjeremy">github.com/lyhjeremy</a>
@@ -114,6 +153,8 @@ try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.doc
 </div>
 
 {series}
+
+{stories}
 
 {index}
 
