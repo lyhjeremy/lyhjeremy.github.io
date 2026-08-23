@@ -1,0 +1,44 @@
+/* Dark is the base palette for this site. Light is opt-in via [data-theme="light"].
+   This inverts DESIGN_STANDARDS.md section 2 rule 5 on purpose: the portfolio root
+   renders dark for every visitor regardless of OS setting. Values are the measured
+   Ledger dark and light sets, unchanged. */
+:root{
+  --paper:#191B18; --panel:#212420; --ink:#E6E6DE; --ink-2:#A2A69B;
+  --rule:#3B3F38; --edge:#6A6F66; --signal:#D8825C; --signal-2:#74AFA5;
+  color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --paper:#EDEDE7; --panel:#F5F5F0; --ink:#1C1E1B; --ink-2:#52564E;
+  --rule:#C6C7BF; --edge:#767A70; --signal:#8C3A1E; --signal-2:#2C5852;
+  color-scheme:light;
+}
+
+.masthead{display:flex;justify-content:space-between;align-items:baseline;
+  gap:var(--s2);padding-bottom:var(--s2);border-bottom:1px solid var(--rule);
+  margin-bottom:var(--s4)}
+.masthead .meta{margin:0}
+.masthead nav a{margin-left:var(--s2);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+.theme-toggle{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;padding:4px var(--s1)}
+.theme-toggle[hidden]{display:none}
+
+h1{margin-bottom:var(--s1)}
+.lede{margin-bottom:var(--s3)}
+.skills{margin:var(--s3) 0 0}
+.skills dt{font-family:var(--font-body);font-size:.8rem;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--ink-2);margin-top:var(--s2)}
+.skills dd{margin:0;max-width:var(--measure)}
+
+.wrap{max-width:96ch}
+.projects th:first-child,.projects td:first-child{width:16ch}
+.projects th:last-child,.projects td:last-child{width:14ch;white-space:nowrap}
+.projects td a+a{margin-left:var(--s1)}
+.projects td.links{font-size:.85rem}
+.projects td strong{font-family:var(--font-head);font-weight:600}
+.section-lede{max-width:var(--measure);color:var(--ink-2)}
+pre.cmd{display:inline-block;margin:var(--s1) 0}
+.pre-cap{font-size:.8rem;color:var(--ink-2);margin:0 0 var(--s2)}
+@media (max-width:600px){
+  .projects th:last-child,.projects td:last-child{white-space:normal;width:auto}
+  .masthead{flex-direction:column;align-items:flex-start}
+  .masthead nav a{margin:0 var(--s2) 0 0}
+}

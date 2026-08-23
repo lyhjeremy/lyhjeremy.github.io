@@ -1,0 +1,78 @@
+{
+  "sections": [
+    {
+      "id": "featured",
+      "title": "Featured projects",
+      "lede": "Selected work across generative AI, statistical modeling and machine learning. The name links to the code, Live opens the project, Writeup opens the long-form page on how it works and what it found.",
+      "projects": [
+        ["skill-compass", "SkillCompass", "A live skill-assessment platform: Elo-style calibration recalibrated from real quiz responses, live peer percentiles, and three LLM-backed features (resume-gap analysis, a mock-interview agent, a personalized study guide). Full-stack, $0/month infrastructure."],
+        ["leeway", "Leeway", "An EV road-trip planner built around the battery a car actually has after five years: elevation- and weather-adjusted range modeling over live routing data, charger selection under a hard reserve constraint, and hazard-aware rerouting within a user-set detour budget."],
+        ["mandarin-learning-reader", "Mandarin Learning Reader", "An interactive Mandarin tutor built from any Chinese EPUB: pinyin over every character, natural read-aloud, and offline speak-back pronunciation grading."],
+        ["cantonese-learner-v2", "Cantonese Learner", "Learn to speak Cantonese from today's HK news plus a 96-scenario everyday-conversations curriculum: LLM rewrite with a review pass, neural zh-HK audio, jyutping, tap-to-compare, and speech grading."],
+        ["epub-reading-level-analyzer", "EPUB Reading-Level Analyzer", "Drop in any EPUB and see its reading grade level, vocabulary richness, and word-coverage curve. Runs entirely in the browser, nothing uploaded."],
+        ["wine-sommelier-rag", "Wine Sommelier RAG", "Semantic search over 130k wine reviews using hybrid BM25 and dense retrieval with a cross-encoder reranker, evaluated on retrieval quality (precision and nDCG up roughly 21%)."],
+        ["marathon-training-agent", "Marathon Training Agent", "A LangGraph agent that iteratively drafts and revises a training plan until it satisfies explicit safety checks, with a Streamlit interface."],
+        ["world-record-half-lives", "World-Record Half-Lives", "Survival analysis (Kaplan-Meier and Cox regression) of how long track-and-field world records stand, estimating each record's probability of falling."],
+        ["marathon-performance-continuum", "Performance Continuum", "Distribution fitting and extreme-value theory locating any marathon time within a field of 31,842 finishers and quantifying how far the world record sits beyond it."]
+      ]
+    },
+    {
+      "id": "applied-ai",
+      "title": "Applied AI engineering",
+      "lede": "Four photo-to-structured-data apps pairing an LLM pipeline with a small model locally fine-tuned (LoRA) on the same task, each benchmarked base vs. fine-tuned vs. Claude zero-shot.",
+      "projects": [
+        ["cellar-scanner", "Cellar Scanner", "Photograph a wine label for a grounded profile and food pairings cited to real reviews; a fine-tuned Qwen2.5-1.5B LoRA guesses grape variety from a blind tasting note alone, beating Claude's zero-shot Top-1 (27.7% vs. 23.0%)."],
+        ["menu-decoder", "Menu Decoder", "Photograph a restaurant menu for cuisine and allergen-risk tags per dish; a fine-tuned LoRA reaches 99.3% cuisine accuracy and 69.3% allergen recall from a bare dish name."],
+        ["receipt-auditor", "Receipt Auditor", "Photograph a receipt for automatic spend-category tagging; a fine-tuned LoRA reaches 90.5% category accuracy on held-out merchants, versus 27.7% for the base model and 56.0% for zero-shot Claude."],
+        ["race-day-copilot", "Race Day Copilot", "Photograph a race course map for a verified km-by-km pacing plan checked against five deterministic rules; a fine-tuned Qwen2.5-3B LoRA reaches near-parity with Claude on structure and plausibility."]
+      ]
+    },
+    {
+      "id": "genai",
+      "title": "Generative AI and agents",
+      "projects": [
+        ["marathon-strategy-rag", "Marathon Strategy RAG", "Grounded retrieval-augmented Q&A that cites its sources, evaluated with an LLM-as-judge faithfulness metric; includes a LangChain LCEL implementation."],
+        ["wine-pairing-agent", "Wine Pairing Agent", "A LangGraph agent that infers a wine style and calls the retriever as a LangChain tool, with full run tracing."]
+      ]
+    },
+    {
+      "id": "running",
+      "title": "Running and sports analytics",
+      "projects": [
+        ["national-strength-profiles", "National Strength Profiles", "K-means clustering and PCA of 43 nations across five athletics disciplines, identifying five distinct performance archetypes."],
+        ["athletics-scoring-fairness", "Scoring-Table Fairness Audit", "Non-parametric hypothesis testing (Kruskal-Wallis) on 6,400 elite marks, assessing whether World Athletics points are comparable across events."],
+        ["marathon-heat-tax", "The Heat Tax", "Regression of Boston Marathon field times on temperature: roughly one minute slower per degree F (r = 0.86)."],
+        ["marathon-negative-split-myth", "The Negative-Split Myth", "Split analysis showing only 2.5% of 31,912 Boston finishers ran a faster second half."],
+        ["marathon-pacing-decay", "Hitting the Wall", "Per-5K split analysis locating where marathon pace decays, around 30 km."],
+        ["boston-marathon-qualifying-fairness", "Boston BQ Fairness", "An equity analysis of Boston qualifying standards across age and gender brackets."],
+        ["marathon-majors-course-difficulty", "Marathon Majors Course Difficulty", "A three-framework comparison of finishing speed across the six World Marathon Majors."],
+        ["marathon-shoe-revolution-decomposition", "Marathon Shoe Revolution", "Decomposition of recent marathon progression into footwear effects versus other factors."]
+      ]
+    },
+    {
+      "id": "language",
+      "title": "Language and NLP",
+      "projects": [
+        ["lyrics-complexity-over-time", "Are Song Lyrics Getting Simpler?", "Fifty years of Billboard lyrics: longer and more repetitive over time, with roughly stable vocabulary."],
+        ["love-island-lexical-analysis", "Love Island Lexical Analysis", "A corpus study of lexical complexity in reality-television dialogue."]
+      ]
+    },
+    {
+      "id": "consumer",
+      "title": "Consumer and finance",
+      "projects": [
+        ["wine-score-inflation", "Wine Score Inflation", "How 130k professional reviews cluster into an effective 8-point band on the nominal 100-point scale."],
+        ["fire-retirement-simulator", "When Can I Retire?", "A Monte-Carlo retirement simulator estimating the probability a portfolio lasts through retirement."]
+      ]
+    },
+    {
+      "id": "tools",
+      "title": "Apps and tools",
+      "projects": [
+        ["leave-time-optimizer", "Leave Time Optimizer", "A routing tool that computes when to depart to arrive on time, using the Google Maps API."],
+        ["epub-to-audiobook", "EPUB to Audiobook", "A desktop app that converts e-books into read-along audiobooks (English and Chinese)."],
+        ["podcastify", "Podcastify", "Converts an e-book or article into a two-host podcast with synthetic voices."]
+      ]
+    }
+  ]
+}
