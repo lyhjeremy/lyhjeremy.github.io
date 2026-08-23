@@ -8,7 +8,7 @@ Portfolio landing page at [lyhjeremy.github.io](https://lyhjeremy.github.io/). P
 - `build.py` renders `index.html` from the JSON. Run `python3 build.py` after any edit, then commit both files.
 - The colophon (skills, about, contact) is inline in `build.py`.
 - `assets/shots/` holds screenshots captured from the live project sites with headless Chrome; retake one with:
-  `chrome --headless=new --window-size=1100,800 --force-device-scale-factor=2 --screenshot=assets/shots/<slug>.png https://lyhjeremy.github.io/<slug>/` then `sips -Z 1600 assets/shots/<slug>.png`.
+  `chrome --headless=new --window-size=1100,800 --force-device-scale-factor=2 --screenshot=assets/shots/<slug>.png https://lyhjeremy.github.io/<slug>/` then `sips -Z 1600 assets/shots/<slug>.png`. If a site will not render headless (Leeway's map, for example), take a screenshot from its writeup instead: the images under `https://lyhjeremy.github.io/<slug>/overview/` are real captures.
 
 ## Theme
 

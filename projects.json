@@ -211,7 +211,8 @@
         "kicker": "No. 02 / decision tools",
         "accent": "ink",
         "headline": "Route planning for a five-year-old battery",
-        "text": "An EV trip planner with range modeling adjusted for elevation and weather, charger stops under a hard reserve, and a detour budget spent avoiding unprotected left turns."
+        "text": "An EV trip planner with range modeling adjusted for elevation and weather, charger stops under a hard reserve, and a detour budget spent avoiding unprotected left turns.",
+        "thumb": "assets/shots/band/leeway.png"
       },
       {
         "slug": "world-record-half-lives",
