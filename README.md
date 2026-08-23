@@ -4,9 +4,11 @@ Portfolio landing page at [lyhjeremy.github.io](https://lyhjeremy.github.io/). P
 
 ## Editing
 
-- `projects.json` holds the grouped project list (slug, display name, one-line method summary). Links are derived from the slug: code at `github.com/lyhjeremy/<slug>`, live at `lyhjeremy.github.io/<slug>/`, writeup at `.../<slug>/overview/`.
+- `projects.json` holds the grouped project list (slug, display name, one-line summary) plus the `editorial` block: the lead story, the briefs rail and the fine-tuning series rows, each with its headline and deck. Links are derived from the slug: code at `github.com/lyhjeremy/<slug>`, live at `lyhjeremy.github.io/<slug>/`, writeup at `.../<slug>/overview/`.
 - `build.py` renders `index.html` from the JSON. Run `python3 build.py` after any edit, then commit both files.
-- The bio, skills and contact sections are inline in `build.py`.
+- The colophon (skills, about, contact) is inline in `build.py`.
+- `assets/shots/` holds screenshots captured from the live project sites with headless Chrome; retake one with:
+  `chrome --headless=new --window-size=1100,800 --force-device-scale-factor=2 --screenshot=assets/shots/<slug>.png https://lyhjeremy.github.io/<slug>/` then `sips -Z 1600 assets/shots/<slug>.png`.
 
 ## Theme
 

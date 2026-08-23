@@ -1,10 +1,7 @@
-/* Root portfolio page. Base identity is Ledger (see DESIGN_STANDARDS.md).
-   Three sanctioned bends for this one site, agreed 2026-08-23:
-   1. dark palette on bare :root, light opt-in via [data-theme="light"]
-   2. 120ms color-only transitions on interactive states
-   3. 2px corner radius on panels and controls
-   Everything else follows the standard: flat fills, no shadows, no gradients,
-   no icon library, two accents with fixed jobs. */
+/* Root portfolio, editorial front-page layout. Base identity is Ledger
+   (see DESIGN_STANDARDS.md). Sanctioned bends for this one site, agreed 2026-08-23,
+   marked ledger-allow below: dark-first :root, 120ms color-only transitions,
+   2px corner radius on panels and controls. */
 
 :root{
   --paper:#191B18; --panel:#212420; --panel-2:#262A25; --ink:#E6E6DE; --ink-2:#A2A69B;
@@ -17,84 +14,113 @@
   color-scheme:light;
 }
 
-/* bend 2: color-only transitions, short enough to read as responsiveness, not motion */
-a,.btn,.projects tbody tr,.toc a{ /* ledger-allow: transition */
+a,.btn,.index li,.brief{ /* ledger-allow: transition */
   transition:color .12s ease,background-color .12s ease,border-color .12s ease} /* ledger-allow: transition */
-@media (prefers-reduced-motion:reduce){
-  a,.btn,.projects tbody tr,.toc a{transition:none}} /* ledger-allow: transition */
+@media (prefers-reduced-motion:reduce){a,.btn,.index li,.brief{transition:none}} /* ledger-allow: transition */
+.btn,pre,figure img,.series-table-wrap,input{border-radius:2px} /* ledger-allow: radius */
 
-/* bend 3: slight radius on surfaces and controls */
-.btn,pre,.callout,.toc,.table-scroll,input,select,textarea{border-radius:2px} /* ledger-allow: radius */
+.wrap{max-width:104ch}
+.oxide{--accent:var(--signal)}
+.pine{--accent:var(--signal-2)}
+.ink{--accent:var(--ink-2)}
 
-.wrap{max-width:96ch}
-
-.masthead{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s2);
-  padding-bottom:var(--s2);border-bottom:1px solid var(--rule);margin-bottom:var(--s4)}
-.masthead .brand{font-family:var(--font-mono);font-size:.85rem;color:var(--ink-2);
-  text-decoration:none}
-.masthead .brand b{color:var(--ink);font-weight:400}
-.masthead nav{display:flex;align-items:baseline;gap:var(--s2);flex-wrap:wrap}
-.masthead nav a{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+/* top bar */
+.topbar{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s2);
+  font-size:.8rem;padding-bottom:var(--s1);border-bottom:1px solid var(--rule)}
+.topbar .left{color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em}
+.topbar nav{display:flex;gap:var(--s2);align-items:baseline;flex-wrap:wrap}
+.topbar nav a{text-transform:uppercase;letter-spacing:.06em}
 .gh-link{font-family:var(--font-mono);text-transform:none;letter-spacing:0;
-  border:1px solid var(--edge);padding:3px var(--s1);color:var(--ink);text-decoration:none;
+  border:1px solid var(--edge);padding:2px var(--s1);color:var(--ink);text-decoration:none;
   border-radius:2px} /* ledger-allow: radius */
 .gh-link:hover{border-color:var(--signal);color:var(--signal)}
-.theme-toggle{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;padding:4px var(--s1)}
+.theme-toggle{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;padding:2px var(--s1)}
 .theme-toggle[hidden]{display:none}
 
-h1{margin-bottom:var(--s1)}
-.lede{margin-bottom:var(--s2)}
-.hero-note{color:var(--ink-2);max-width:var(--measure)}
-.hero-note a{color:var(--signal)}
+/* nameplate */
+.nameplate{text-align:center;padding:var(--s4) 0 var(--s2)}
+.nameplate h1{font-size:4rem;margin:0;letter-spacing:-.015em}
+.dateline{font-size:.8rem;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-2);
+  margin:var(--s1) 0 var(--s2)}
+.dateline b{color:var(--ink);font-weight:600}
+.double-rule{border:0;border-top:3px double var(--ink);margin:0 0 var(--s4)}
 
-pre.cmd{display:inline-block;margin:var(--s2) 0 var(--s1)}
-.pre-cap{font-size:.8rem;color:var(--ink-2);margin:0 0 var(--s3)}
+/* lead story + briefs rail */
+.front{display:grid;grid-template-columns:2fr 1fr;gap:var(--s4);align-items:start}
+.rail{border-left:1px solid var(--rule);padding-left:var(--s4)}
+.kicker{font-family:var(--font-mono);font-size:.8rem;letter-spacing:.04em;
+  color:var(--accent,var(--ink-2));text-transform:uppercase;margin:0 0 var(--s1)}
+.lead h2{font-size:2.44rem;border:0;margin:0 0 var(--s2);padding:0;line-height:1.1}
+.lead h2 a{color:var(--ink);text-decoration:none}
+.lead h2 a:hover{color:var(--signal)}
+.deck{font-family:var(--font-head);font-size:1.15rem;color:var(--ink-2);max-width:60ch}
+.story-links{font-size:.9rem}
+.story-links a+a{margin-left:var(--s2)}
+.lead figure{margin:0 0 var(--s3)}
+.lead figure img{border:1px solid var(--edge)}
 
-/* table of contents: tinted panel (bend 1 of the surface kind), numbered like a document */
-.toc{background:var(--panel);border:1px solid var(--rule);padding:var(--s2) var(--s3);
-  margin:var(--s4) 0}
-.toc h2{margin:0 0 var(--s1);border:0;padding:0;font-size:1rem;font-family:var(--font-body);
-  text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);font-weight:600}
-.toc ol{margin:0;padding:0;list-style:none;columns:2;column-gap:var(--s4)}
-.toc li{break-inside:avoid;margin:0;padding:6px 0;border-bottom:1px solid var(--rule)}
-.toc li:last-child,.toc li:nth-last-child(2){border-bottom:0}
-.toc a{text-decoration:none;color:var(--ink);display:flex;justify-content:space-between;
-  align-items:baseline;gap:var(--s2)}
-.toc a:hover{color:var(--signal)}
-.toc .n{font-family:var(--font-mono);color:var(--accent,var(--ink-2));margin-right:var(--s1)}
-.toc .count{font-family:var(--font-mono);font-size:.8rem;color:var(--ink-2)}
+.brief{padding:var(--s3) 0;border-bottom:1px solid var(--rule)}
+.brief:first-child{padding-top:0}
+.brief:last-child{border-bottom:0}
+.brief h3{font-size:1.25rem;margin:0 0 var(--s1);line-height:1.2}
+.brief h3 a{color:var(--ink);text-decoration:none}
+.brief h3 a:hover{color:var(--signal)}
+.brief p{font-size:.95rem;color:var(--ink-2);margin-bottom:var(--s1)}
 
-/* sections: numbered, accent-coded. Oxide = generative AI and agents,
-   pine = statistics and analysis, ink = the rest. Two hues, fixed jobs. */
-.sec-oxide{--accent:var(--signal)}
-.sec-pine{--accent:var(--signal-2)}
-.sec-ink{--accent:var(--ink)}
-section h2{border-bottom:2px solid var(--accent,var(--ink))}
-.sec-num{font-family:var(--font-mono);font-size:1.1rem;color:var(--accent,var(--ink-2));
-  margin-right:var(--s1);vertical-align:6px;letter-spacing:0}
-.section-lede{max-width:var(--measure);color:var(--ink-2)}
+/* section headers, newspaper style */
+.band{margin-top:var(--s5)}
+.band-head{display:flex;align-items:baseline;gap:var(--s2);border-bottom:2px solid var(--accent,var(--ink));
+  padding-bottom:var(--s1);margin-bottom:var(--s3)}
+.band-head h2{border:0;margin:0;padding:0;font-size:1.56rem}
+.band-head .n{font-family:var(--font-mono);color:var(--accent,var(--ink-2))}
+.band-intro{max-width:68ch;color:var(--ink-2)}
 
-/* project tables on a tinted surface */
-.table-scroll{background:var(--panel);border:1px solid var(--rule);padding:0 var(--s2)}
-.projects th{border-bottom-color:var(--accent,var(--ink))}
-.projects th:first-child,.projects td:first-child{width:16ch}
-.projects th:last-child,.projects td:last-child{width:13ch;white-space:nowrap}
-.projects td.links{font-size:.85rem}
-.projects td.links a+a{margin-left:var(--s1)}
-.projects td strong{font-family:var(--font-head);font-weight:600;font-size:1.05rem}
-.projects tbody tr:hover{background:var(--panel-2)}
-.projects tbody tr:last-child td{border-bottom:0}
+/* series table */
+.series-table-wrap{background:var(--panel);border:1px solid var(--rule);padding:0 var(--s2);
+  overflow-x:auto}
+.series-table-wrap td strong{font-family:var(--font-head);font-size:1.05rem}
+td.stat{font-family:var(--font-mono);font-size:1.25rem;color:var(--signal);white-space:nowrap}
+.series-table-wrap tbody tr:hover{background:var(--panel-2)}
+.series-table-wrap tbody tr:last-child td{border-bottom:0}
+.series-table-wrap td.links{white-space:nowrap;font-size:.85rem}
+.series-table-wrap td.links a+a{margin-left:var(--s1)}
 
-.skills{margin:var(--s3) 0 0}
-.skills dt{font-family:var(--font-body);font-size:.8rem;text-transform:uppercase;
-  letter-spacing:.06em;color:var(--signal-2);margin-top:var(--s2);font-weight:600}
-.skills dd{margin:0;max-width:var(--measure)}
+/* full index, agate style */
+.index{columns:2;column-gap:var(--s5)}
+.index .group{break-inside:avoid;margin-bottom:var(--s3)}
+.index h3{font-family:var(--font-body);font-size:.8rem;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--accent,var(--ink-2));margin:0 0 var(--s1);
+  border-bottom:1px solid var(--rule);padding-bottom:4px}
+.index h3 .count{font-family:var(--font-mono);color:var(--ink-2);font-weight:400}
+.index ul{list-style:none;margin:0;padding:0}
+.index li{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s2);
+  padding:5px 0;border-bottom:1px solid var(--rule)}
+.index li:last-child{border-bottom:0}
+.index li:hover{background:var(--panel)}
+.index .t a{color:var(--ink);text-decoration:none}
+.index .t a:hover{color:var(--signal)}
+.index .go{font-size:.8rem;white-space:nowrap}
+.index .go a+a{margin-left:var(--s1)}
+
+/* colophon */
+.colophon{margin-top:var(--s5);border-top:3px double var(--ink);padding-top:var(--s3)}
+.colophon .cols{display:grid;grid-template-columns:2fr 1fr;gap:var(--s4)}
+.skills dt{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--signal-2);margin-top:var(--s1);font-weight:600}
+.skills dd{margin:0;font-size:.9rem;color:var(--ink-2)}
+.colophon h3{font-size:1rem;font-family:var(--font-body);text-transform:uppercase;
+  letter-spacing:.06em;margin:0 0 var(--s1)}
+.colophon p,.colophon li{font-size:.9rem}
+pre.cmd{display:inline-block;margin:var(--s1) 0}
+.pre-cap{font-size:.8rem;color:var(--ink-2);margin:0}
 
 .site-footer{display:flex;justify-content:space-between;gap:var(--s2);flex-wrap:wrap}
 
-@media (max-width:720px){
-  .toc ol{columns:1}
-  .toc li:nth-last-child(2){border-bottom:1px solid var(--rule)}
-  .projects th:last-child,.projects td:last-child{white-space:normal;width:auto}
-  .masthead{flex-direction:column;align-items:flex-start}
+@media (max-width:860px){
+  .front,.colophon .cols{grid-template-columns:1fr}
+  .rail{border-left:0;padding-left:0;border-top:1px solid var(--rule);padding-top:var(--s3)}
+  .index{columns:1}
+  .nameplate h1{font-size:3.05rem}
 }
+
+.site-footer span a{margin-right:0}
