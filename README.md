@@ -10,7 +10,9 @@ Portfolio landing page at [lyhjeremy.github.io](https://lyhjeremy.github.io/). P
 
 ## Theme
 
-`assets/ledger/ledger.css` is the unmodified Ledger house stylesheet. `assets/site.css` loads after it and sets the dark palette on bare `:root`, so every visitor sees dark regardless of OS setting. Light is opt-in through `[data-theme="light"]`, toggled by the button in the header and remembered in `localStorage`. This deliberately inverts rule 5 of DESIGN_STANDARDS.md section 2 for this one site; the color values themselves are the measured Ledger sets.
+`assets/ledger/ledger.css` is the unmodified Ledger house stylesheet. `assets/site.css` loads after it and sets the dark palette on bare `:root`, so every visitor sees dark regardless of OS setting. Light is opt-in through `[data-theme="light"]`, toggled by the button in the header and remembered in `localStorage`.
+
+Three sanctioned bends from DESIGN_STANDARDS.md apply to this one site, agreed 2026-08-23 and marked with `ledger-allow` comments in the CSS: dark-first `:root` (inverting section 2 rule 5), 120ms color-only transitions on interactive states, and a 2px corner radius on panels and controls. The palette, fonts and everything else follow the standard. Section accents: oxide marks generative AI and agents, pine marks statistics and analysis.
 
 ## Check
 
