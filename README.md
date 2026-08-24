@@ -15,7 +15,7 @@ Portfolio landing page at [lyhjeremy.github.io](https://lyhjeremy.github.io/). P
     chrome --headless=new --window-size=1100,800 --force-device-scale-factor=2 --screenshot=assets/shots/<slug>.png https://lyhjeremy.github.io/<slug>/
     sips -Z 1600 assets/shots/<slug>.png
 
-If a site will not render headless (Leeway's map, for example), use a screenshot from its writeup: the images under `https://lyhjeremy.github.io/<slug>/overview/` are real captures. Derived sizes used by the page: `assets/shots/med/` (1000px 16:10 JPEGs for featured cards) and `assets/shots/card/` (720px 16:10 JPEGs for every project card and the hero mosaic). The crop code is in the git history of this README's commit; regenerate with PIL if a source changes.
+If a site will not render headless (Leeway's map, for example), use a screenshot from its writeup: the images under `https://lyhjeremy.github.io/<slug>/overview/` are real captures. Card thumbnails in `assets/shots/card/` (720px 16:10) are the most interesting figure from each project's writeup (chart, UI shot or diagram), padded to 16:10 with a background sampled from the image corners, never cropped; `assets/shots/med/` holds 1280px versions for the two wide cards. Candidate figures come from the images under `https://lyhjeremy.github.io/<slug>/overview/`. The two projects whose writeups have no figures (epub-to-audiobook, podcastify) use a crop of their live page instead. The crop code is in the git history of this README's commit; regenerate with PIL if a source changes.
 
 ## Styling
 

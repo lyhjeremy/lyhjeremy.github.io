@@ -248,32 +248,32 @@
           "name": "Cellar Scanner",
           "stat": "27.7% vs 23.0%",
           "thumb": "assets/shots/band/cellar-scanner.png",
-          "note": "fine-tuned LoRA beats Claude zero-shot at top-1 grape variety from a blind tasting note",
-          "short": "Grape variety from a tasting note"
+          "note": "a 1.5B model tuned on my laptop out-guesses Claude zero-shot at grape variety from a blind tasting note",
+          "short": "Snap a wine label, name the grape blind"
         },
         {
           "slug": "menu-decoder",
           "name": "Menu Decoder",
           "stat": "99.3%",
           "thumb": "assets/shots/band/menu-decoder.png",
-          "note": "cuisine accuracy from a bare dish name; 69.3% recall across 14 allergens",
-          "short": "Cuisine and allergens from a dish name"
+          "note": "cuisine called right from nothing but the dish name, with 69.3% recall across all 14 allergens",
+          "short": "Any menu, translated and allergen-flagged"
         },
         {
           "slug": "receipt-auditor",
           "name": "Receipt Auditor",
-          "stat": "90.5%",
+          "stat": "90.5% vs 56%",
           "thumb": "assets/shots/band/receipt-auditor.png",
-          "note": "spend-category accuracy on held-out merchants; zero-shot Claude reaches 56.0%",
-          "short": "Spend category from a receipt"
+          "note": "the local model beats zero-shot Claude on merchants neither has ever seen",
+          "short": "Receipts in, clean spending data out"
         },
         {
           "slug": "race-day-copilot",
           "name": "Race Day Copilot",
-          "stat": "5 rules",
+          "stat": "5x verified",
           "thumb": "assets/shots/band/race-day-copilot.png",
-          "note": "every km-by-km pacing plan is verified against five deterministic checks",
-          "short": "Pacing plans that pass five checks"
+          "note": "every km-by-km split passes five deterministic checks before you ever see it",
+          "short": "A course photo in, a race plan out"
         }
       ]
     },

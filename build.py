@@ -37,15 +37,15 @@ def card(slug, eyebrow, headline, text="", *, tone="", big=False, stat=None, img
             f'<div class="links">{links(slug, code, short=cls=="mini")}</div></div></article>')
 
 L = ed["lead"]
-featured = (card(L["slug"], "SkillCompass", L["headline"], L["deck"], tone="dark", big=True, cls="span-2", code=True)
-            + "".join(card(b["slug"], b["kicker"].split("/")[-1].strip().capitalize(), b["headline"], b["text"],
-                           tone=TONES[b["slug"]]) for b in ed["briefs"]))
+lead_card = card(L["slug"], "SkillCompass", L["headline"], L["deck"], tone="dark", big=True, cls="wide", code=True)
+briefs = "".join(card(b["slug"], b["kicker"].split("/")[-1].strip().capitalize(), b["headline"], b["text"],
+                      tone=TONES[b["slug"]], img=CARD) for b in ed["briefs"])
 S = ed["series"]
 series = "".join(card(r["slug"], r["name"], r["short"], r["note"][0].upper() + r["note"][1:] + ".",
-                      tone=TONES[r["slug"]], stat=r["stat"]) for r in S["rows"])
+                      tone=TONES[r["slug"]], stat=r["stat"], img=CARD) for r in S["rows"])
 ST = ed["stories"]; m = ST["main"]
-stories = (card(m["slug"], NAMES[m["slug"]], m["headline"], m["text"], tone="dark-purple", big=True, cls="span-2")
-           + "".join(card(x["slug"], NAMES[x["slug"]], x["headline"], x["text"], tone=TONES[x["slug"]]) for x in ST["side"]))
+stories = (card(m["slug"], NAMES[m["slug"]], m["headline"], m["text"], tone="dark-purple", img=CARD)
+           + "".join(card(x["slug"], NAMES[x["slug"]], x["headline"], x["text"], tone=TONES[x["slug"]], img=CARD) for x in ST["side"]))
 stats = "".join(
     f'<a class="{STAT_TONES[i % 5]}" href="{PAGES}{t["slug"]}/"><span class="v">{e(t["stat"])}</span>'
     f'<span class="l">{e(t["label"])}</span></a>' for i, t in enumerate(ed["numbers"]["tiles"]))
@@ -105,7 +105,8 @@ try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.doc
 
 <section class="section wrap" id="featured">
   <div class="section-head"><h2>Featured</h2><p>A product, a decision tool, two data stories, a language app.</p></div>
-  <div class="grid cols-3">{featured}</div>
+  {lead_card}
+  <div class="grid cols-4" style="margin-top:14px">{briefs}</div>
 </section>
 
 <div class="band"><section class="section wrap" id="series">
@@ -115,7 +116,7 @@ try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.doc
 
 <section class="section wrap" id="stories">
   <div class="section-head"><h2>Data stories</h2><p>Findings from the analysis projects, with the chart that carries each.</p></div>
-  <div class="grid cols-4">{stories}</div>
+  <div class="grid cols-3">{stories}</div>
   <div class="grid cols-5 stats" style="margin-top:14px">{stats}</div>
 </section>
 
