@@ -104,24 +104,24 @@ try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.doc
 </header>
 
 <section class="section wrap" id="featured">
-  <div class="section-head"><h2>Featured</h2><p>A product, a decision tool, two data stories, a language app.</p></div>
+  <div class="section-head"><p class="section-eyebrow blue">Selected work</p><h2>Featured</h2><p>A product, a decision tool, two data stories, a language app.</p></div>
   {lead_card}
   <div class="grid cols-4" style="margin-top:14px">{briefs}</div>
 </section>
 
 <div class="band"><section class="section wrap" id="series">
-  <div class="section-head"><h2>The fine-tuning series</h2><p>Four photo-to-data apps, each with a locally fine-tuned LoRA benchmarked against Claude zero-shot.</p></div>
+  <div class="section-head"><p class="section-eyebrow orange">Applied AI</p><h2>The fine-tuning series</h2><p>Four photo-to-data apps, each with a locally fine-tuned LoRA benchmarked against Claude zero-shot.</p></div>
   <div class="grid cols-4">{series}</div>
 </section></div>
 
 <section class="section wrap" id="stories">
-  <div class="section-head"><h2>Data stories</h2><p>Findings from the analysis projects, with the chart that carries each.</p></div>
+  <div class="section-head"><p class="section-eyebrow purple">Analysis</p><h2>Data stories</h2><p>Findings from the analysis projects, with the chart that carries each.</p></div>
   <div class="grid cols-3">{stories}</div>
   <div class="grid cols-5 stats" style="margin-top:14px">{stats}</div>
 </section>
 
 <div class="band"><section class="section wrap" id="index">
-  <div class="section-head"><h2>All {n} projects</h2><p>Grouped the way I file them. The name opens the code.</p></div>
+  <div class="section-head"><p class="section-eyebrow green">The index</p><h2>All {n} projects</h2><p>Grouped the way I file them. The name opens the code.</p></div>
   {groups}
 </section></div>
 </main>
