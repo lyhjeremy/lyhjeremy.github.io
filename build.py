@@ -8,104 +8,61 @@ ed = data["editorial"]
 GH = "https://github.com/lyhjeremy/"
 PAGES = "https://lyhjeremy.github.io/"
 e = html.escape
+MED = "assets/shots/med/"
 
-ACCENT = {"featured": "ink", "applied-ai": "oxide", "genai": "oxide",
-          "running": "pine", "language": "pine", "consumer": "pine", "tools": "ink"}
-
-def links(slug, code=True):
-    out = [f'<a href="{PAGES}{slug}/">Live</a>', f'<a href="{PAGES}{slug}/overview/">Writeup</a>']
+def links(slug, code=False):
+    out = [f'<a class="chev" href="{PAGES}{slug}/">Open the site</a>',
+           f'<a class="chev" href="{PAGES}{slug}/overview/">Read the writeup</a>']
     if code:
-        out.append(f'<a href="{GH}{slug}">Code</a>')
+        out.append(f'<a class="chev" href="{GH}{slug}">View the code</a>')
     return "".join(out)
 
-# lead story
+def tile(slug, eyebrow, headline, text, *, lead=False, stat=None, img=True, code=False):
+    cls = "tile lead" if lead else "tile"
+    h = f'<h3>{e(headline)}</h3>'
+    st = f'<div class="stat">{e(stat)}</div>' if stat else ""
+    media = (f'<div class="media"><a href="{PAGES}{slug}/"><img src="{MED}{slug}.jpg" '
+             f'alt="{e(headline)}" loading="lazy"></a></div>') if img else ""
+    return (f'<article class="{cls}"><div class="copy">'
+            f'<p class="eyebrow">{e(eyebrow)}</p>{st}{h}<p>{e(text)}</p>'
+            f'<div class="links">{links(slug, code)}</div></div>{media}</article>')
+
+# featured
 L = ed["lead"]
-lead = f'''<article class="lead {L["accent"]}">
-<figure><img src="{L["figure"]}" alt="{e(L["figcap"])}" width="1600" height="1170">
-<figcaption>{e(L["figcap"])}</figcaption></figure>
-<p class="kicker">{e(L["kicker"])}</p>
-<h2><a href="{PAGES}{L["slug"]}/">{e(L["headline"])}</a></h2>
-<p class="deck">{e(L["deck"])}</p>
-<p class="story-links">{links(L["slug"])}</p>
-</article>'''
-
-def brief_img(b):
-    if "thumb" not in b:
-        return ""
-    return (f'<a href="{PAGES}{b["slug"]}/"><img src="{b["thumb"]}" '
-            f'alt="Hero of the {e(b["slug"])} page" loading="lazy"></a>')
-
+featured = tile(L["slug"], "SkillCompass", L["headline"], L["deck"], lead=True, code=True)
 briefs = "".join(
-    f'''<article class="brief {b["accent"]}">
-{brief_img(b)}<p class="kicker">{e(b["kicker"])}</p>
-<h3><a href="{PAGES}{b["slug"]}/">{e(b["headline"])}</a></h3>
-<p>{e(b["text"])}</p>
-<p class="story-links">{links(b["slug"], code=False)}</p>
-</article>''' for b in ed["briefs"])
+    tile(b["slug"], b["kicker"].split("/")[-1].strip().capitalize(), b["headline"], b["text"])
+    for b in ed["briefs"])
 
 # fine-tuning series
 S = ed["series"]
-series_rows = "".join(
-    f'<tr><td class="pic"><a href="{PAGES}{r["slug"]}/">'
-    f'<img src="{r["thumb"]}" alt="Hero of the {e(r["name"])} page" loading="lazy"></a></td>'
-    f'<td><strong><a href="{GH}{r["slug"]}">{e(r["name"])}</a></strong></td>'
-    f'<td class="stat">{e(r["stat"])}</td><td>{e(r["note"])}</td>'
-    f'<td class="links">{links(r["slug"], code=False)}</td></tr>'
+series = "".join(
+    tile(r["slug"], r["name"], r["short"], r["note"][0].upper() + r["note"][1:] + ".", stat=r["stat"])
     for r in S["rows"])
-series = f'''<section class="band oxide" id="series">
-<div class="band-head"><span class="n">II</span><h2>{e(S["title"])}</h2></div>
-<p class="band-intro">{e(S["intro"])}</p>
-<div class="series-table-wrap"><table>
-<thead><tr><th></th><th>Project</th><th>Result</th><th>Benchmark</th><th>Links</th></tr></thead>
-<tbody>{series_rows}</tbody></table></div>
-</section>'''
 
-
-# data stories band
+# data stories + numbers
 ST = ed["stories"]
-def story(x, heading):
-    return f'''<article class="story {x["accent"]}">
-<figure><a href="{PAGES}{x["slug"]}/"><img src="{x["figure"]}" alt="{e(x["figcap"])}" loading="lazy"></a>
-<figcaption>{e(x["figcap"])}</figcaption></figure>
-<{heading}><a href="{PAGES}{x["slug"]}/">{e(x["headline"])}</a></{heading[:2]}>
-<p>{e(x["text"])}</p>
-<p class="story-links">{links(x["slug"], code=False)}</p>
-</article>'''
-NUM = ed["numbers"]
-tiles = "".join(
-    f'<div class="tile"><a href="{PAGES}{t["slug"]}/">'
-    f'<span class="v">{e(t["stat"])}</span><span class="l">{e(t["label"])}</span></a></div>'
-    for t in NUM["tiles"])
-stories = f'''<section class="band pine" id="stories">
-<div class="band-head"><span class="n">III</span><h2>{e(ST["title"])}</h2></div>
-<p class="band-intro">{e(ST["intro"])}</p>
-<div class="stories">
-{story(ST["main"], "h3")}
-<div class="side">{"".join(story(x, "h3") for x in ST["side"])}</div>
-</div>
-<div class="numbers">{tiles}</div>
-</section>'''
+m = ST["main"]
+stories_main = tile(m["slug"], "Wine Score Inflation", m["headline"], m["text"], lead=True)
+NAMES = {slug: name for sec in data["sections"] for slug, name, _ in sec["projects"]}
+stories_side = "".join(
+    tile(x["slug"], NAMES[x["slug"]], x["headline"], x["text"]) for x in ST["side"])
+stats = "".join(
+    f'<a href="{PAGES}{t["slug"]}/"><span class="v">{e(t["stat"])}</span>'
+    f'<span class="l">{e(t["label"])}</span></a>' for t in ed["numbers"]["tiles"])
 
-# full index of all projects
-groups = []
-for s in data["sections"]:
-    cls = ACCENT.get(s["id"], "ink")
-    def thumb(slug):
-        if (ROOT / "assets/shots/thumbs" / f"{slug}.png").exists():
-            return f'<span class="th"><img src="assets/shots/thumbs/{slug}.png" alt="" loading="lazy" width="48" height="32"></span>'
-        return ""
-    items = "".join(
+# index
+def thumb(slug):
+    p = ROOT / "assets/shots/thumbs" / f"{slug}.png"
+    return f'<img src="assets/shots/thumbs/{slug}.png" alt="" loading="lazy" width="56" height="38">' if p.exists() else ""
+groups = "".join(
+    f'<div class="group"><h3>{e(s["title"])} <span>({len(s["projects"])})</span></h3><ul>'
+    + "".join(
         f'<li>{thumb(slug)}<span class="t"><a href="{GH}{slug}">{e(name)}</a></span>'
-        f'<span class="go">{links(slug, code=False)}</span></li>'
+        f'<span class="go"><a href="{PAGES}{slug}/">Site</a><a href="{PAGES}{slug}/overview/">Writeup</a></span></li>'
         for slug, name, _ in s["projects"])
-    groups.append(f'<div class="group {cls}"><h3>{e(s["title"])} '
-                  f'<span class="count">({len(s["projects"])})</span></h3><ul>{items}</ul></div>')
+    + '</ul></div>' for s in data["sections"])
 n = sum(len(s["projects"]) for s in data["sections"])
-index = f'''<section class="band ink" id="index">
-<div class="band-head"><span class="n">IV</span><h2>The full index</h2></div>
-<p class="band-intro">All {n} projects, grouped the way I file them. The name opens the code, Live opens the site, Writeup opens the long-form page.</p>
-<div class="index">{"".join(groups)}</div>
-</section>'''
 
 page = f'''<!doctype html>
 <html lang="en">
@@ -114,84 +71,84 @@ page = f'''<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Jeremy Lee</title>
 <meta name="description" content="Data scientist and UCLA Anderson MSBA. {n} live projects across generative AI, statistical modeling and machine learning.">
-<link rel="stylesheet" href="assets/ledger/ledger.css">
 <link rel="stylesheet" href="assets/site.css">
 <script>
-/* Apply a saved theme before first paint. Default is dark; nothing is stored until the
-   visitor presses the toggle. */
 try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}}catch(err){{}}
 </script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="wrap">
-
-<div class="topbar">
-  <span class="left">Applied analytics and machine learning</span>
-  <nav aria-label="Page">
-    <a href="#series">Series</a>
-    <a href="#stories">Stories</a>
-    <a href="#index">Index</a>
-    <a href="#colophon">About</a>
-    <a class="gh-link" href="https://github.com/lyhjeremy">github.com/lyhjeremy</a>
-    <button class="btn theme-toggle" type="button" id="theme-toggle" hidden aria-pressed="false">Light mode</button>
-  </nav>
-</div>
-
-<header class="nameplate">
-  <h1>Jeremy Lee</h1>
-  <p class="dateline">Data scientist · UCLA Anderson MSBA · formerly Chief Strategy Officer · <b>{n} live projects</b></p>
-</header>
-<hr class="double-rule">
+<nav class="nav" aria-label="Page">
+  <div class="wrap">
+    <a class="brand" href="{PAGES}">Jeremy Lee</a>
+    <a href="#featured">Featured</a>
+    <a href="#series">Fine-tuning</a>
+    <a href="#stories">Data stories</a>
+    <a href="#index">All projects</a>
+    <a href="https://github.com/lyhjeremy">GitHub</a>
+    <button type="button" id="theme-toggle" hidden aria-pressed="false">Light</button>
+  </div>
+</nav>
 
 <main id="main">
-<div class="front">
-{lead}
-<div class="rail">
-{briefs}
-</div>
-</div>
+<header class="hero wrap">
+  <h1>Jeremy Lee</h1>
+  <p class="sub">Data scientist. UCLA Anderson MSBA.<br><b>{n} projects, all live.</b></p>
+  <div class="cta">
+    <a class="chev" href="#featured">See the work</a>
+    <a class="chev" href="https://github.com/lyhjeremy">github.com/lyhjeremy</a>
+  </div>
+</header>
 
-{series}
+<section class="section wrap" id="featured">
+  <div class="section-head"><h2>Featured.</h2><p>Five projects that show the range: a full-stack product, a decision tool, two data stories and a language app.</p></div>
+  {featured}
+  <div class="grid-2">{briefs}</div>
+</section>
 
-{stories}
+<section class="section wrap" id="series">
+  <div class="section-head"><h2>The fine-tuning series.</h2><p>{e(S["intro"])}</p></div>
+  <div class="grid-2">{series}</div>
+</section>
 
-{index}
+<section class="section wrap" id="stories">
+  <div class="section-head"><h2>Data stories.</h2><p>{e(ST["intro"])}</p></div>
+  {stories_main}
+  <div class="grid-2">{stories_side}</div>
+  <div class="stats">{stats}</div>
+</section>
 
-<section class="colophon" id="colophon">
-<div class="cols">
-<div>
-<h3>What I work with</h3>
-<dl class="skills">
-  <dt>Modeling</dt><dd>scikit-learn, PyTorch, XGBoost, regression / classification / clustering, time series, neural networks, causal inference, survival analysis, A/B testing</dd>
-  <dt>Optimization</dt><dd>Gurobi, LP / IP / QP / non-convex programming, branch-and-bound, LP duality, gradient descent, simulation, Monte Carlo</dd>
-  <dt>GenAI and agents</dt><dd>LLM prompting, RAG, embeddings, vector databases, fine-tuning, OpenAI / Anthropic APIs, LangChain, LangGraph, tool use, retrieval pipelines</dd>
-  <dt>Data and deployment</dt><dd>Python, R, SQL, Snowflake, Airflow, Spark / PySpark, Tableau, Power BI, Git, GitHub Pages, Streamlit</dd>
-</dl>
-</div>
-<div>
-<h3>About</h3>
-<p>Co-founder and Chief Strategy Officer at Casual Ace Learning Centre: grew enrollment 5.2x to over 1,000 students across six centers. MSBA, UCLA Anderson; BBA, University of Hong Kong. Outside the terminal: 14 marathons, Berlin personal best of 2:48, WSET Level 3 in wine.</p>
-<p><a href="https://www.linkedin.com/in/jeremylyh/">LinkedIn</a> · <a href="mailto:lyhjeremy@gmail.com">Email</a> · <a href="https://github.com/lyhjeremy">GitHub</a></p>
-<pre class="cmd">npx lyhjeremy</pre>
-<p class="pre-cap">The interactive version of this page, in a terminal.</p>
-</div>
-</div>
+<section class="section wrap" id="index">
+  <div class="section-head"><h2>All {n} projects.</h2><p>Grouped the way I file them. The name opens the code.</p></div>
+  <div class="index">{groups}</div>
 </section>
 </main>
 
-<footer class="site-footer">
-  <a href="https://github.com/lyhjeremy">github.com/lyhjeremy</a>
-  <span>Design and copy follow <a href="https://github.com/lyhjeremy/lyhjeremy/blob/main/DESIGN_STANDARDS.md">the house standards</a>. Fonts are self-hosted; no third-party requests, no analytics. Source: <a href="{GH}lyhjeremy.github.io">lyhjeremy.github.io</a>.</span>
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div><h4>Modeling</h4><ul><li>scikit-learn, PyTorch, XGBoost</li><li>Regression, classification, clustering</li><li>Time series, neural networks</li><li>Causal inference, survival analysis</li><li>A/B testing</li></ul></div>
+      <div><h4>Optimization</h4><ul><li>Gurobi</li><li>LP / IP / QP, non-convex</li><li>Branch-and-bound, LP duality</li><li>Gradient descent</li><li>Simulation, Monte Carlo</li></ul></div>
+      <div><h4>GenAI and agents</h4><ul><li>LLM prompting, RAG, embeddings</li><li>Vector databases, fine-tuning</li><li>OpenAI and Anthropic APIs</li><li>LangChain, LangGraph</li><li>Tool use, retrieval pipelines</li></ul></div>
+      <div><h4>Data and deployment</h4><ul><li>Python, R, SQL</li><li>Snowflake, Airflow, Spark</li><li>Tableau, Power BI</li><li>Git, GitHub Pages, Streamlit</li></ul></div>
+    </div>
+    <div class="about" style="padding:20px 0;border-bottom:1px solid var(--line)">
+      <p>Co-founder and Chief Strategy Officer at Casual Ace Learning Centre: grew enrollment 5.2x to over 1,000 students across six centers. MSBA, UCLA Anderson; BBA, University of Hong Kong. 14 marathons, Berlin personal best 2:48. WSET Level 3 in wine.</p>
+      <p><a href="https://www.linkedin.com/in/jeremylyh/">LinkedIn</a> · <a href="mailto:lyhjeremy@gmail.com">Email</a> · <a href="https://github.com/lyhjeremy">GitHub</a> · Terminal version: <code>npx lyhjeremy</code></p>
+    </div>
+    <div class="legal">
+      <span>Screenshots are captures of the live sites. No analytics, no third-party requests.</span>
+      <span><a href="{GH}lyhjeremy.github.io">Source for this page</a></span>
+    </div>
+  </div>
 </footer>
-</div>
 
 <script>
 (function(){{
   var root=document.documentElement,btn=document.getElementById("theme-toggle");
   if(!btn)return;
   function current(){{return root.getAttribute("data-theme")==="light"?"light":"dark";}}
-  function render(){{var light=current()==="light";btn.textContent=light?"Dark mode":"Light mode";btn.setAttribute("aria-pressed",light?"true":"false");}}
+  function render(){{var light=current()==="light";btn.textContent=light?"Dark":"Light";btn.setAttribute("aria-pressed",light?"true":"false");}}
   btn.hidden=false;render();
   btn.addEventListener("click",function(){{
     var next=current()==="light"?"dark":"light";

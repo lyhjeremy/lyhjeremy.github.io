@@ -248,28 +248,32 @@
           "name": "Cellar Scanner",
           "stat": "27.7% vs 23.0%",
           "thumb": "assets/shots/band/cellar-scanner.png",
-          "note": "fine-tuned LoRA beats Claude zero-shot at top-1 grape variety from a blind tasting note"
+          "note": "fine-tuned LoRA beats Claude zero-shot at top-1 grape variety from a blind tasting note",
+          "short": "Grape variety from a tasting note"
         },
         {
           "slug": "menu-decoder",
           "name": "Menu Decoder",
           "stat": "99.3%",
           "thumb": "assets/shots/band/menu-decoder.png",
-          "note": "cuisine accuracy from a bare dish name; 69.3% recall across 14 allergens"
+          "note": "cuisine accuracy from a bare dish name; 69.3% recall across 14 allergens",
+          "short": "Cuisine and allergens from a dish name"
         },
         {
           "slug": "receipt-auditor",
           "name": "Receipt Auditor",
           "stat": "90.5%",
           "thumb": "assets/shots/band/receipt-auditor.png",
-          "note": "spend-category accuracy on held-out merchants; zero-shot Claude reaches 56.0%"
+          "note": "spend-category accuracy on held-out merchants; zero-shot Claude reaches 56.0%",
+          "short": "Spend category from a receipt"
         },
         {
           "slug": "race-day-copilot",
           "name": "Race Day Copilot",
           "stat": "5 rules",
           "thumb": "assets/shots/band/race-day-copilot.png",
-          "note": "every km-by-km pacing plan is verified against five deterministic checks"
+          "note": "every km-by-km pacing plan is verified against five deterministic checks",
+          "short": "Pacing plans that pass five checks"
         }
       ]
     },
