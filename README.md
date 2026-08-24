@@ -19,6 +19,6 @@ If a site will not render headless (Leeway's map, for example), use a screenshot
 
 ## Styling
 
-The page follows apple.com conventions: system sans (SF on Apple devices, Helvetica/Arial elsewhere), black and near-black surfaces, one blue accent, rounded tiles, chevron links. Dark is the default for every visitor; light is opt-in through the nav toggle and remembered in `localStorage`. All colors are CSS custom properties on `:root` and `:root[data-theme="light"]` in `assets/site.css`.
+The page follows apple.com conventions: system sans (SF on Apple devices, Helvetica/Arial elsewhere), white and `#f5f5f7` surfaces, rounded tiles, chevron links. Tiles carry one of six tints (blue, green, orange, purple, pink, teal) mapped to project categories in `build.py` (`TONES`, `STAT_TONES`, `GROUP_TONES`); the lead tiles use a dark gradient. Light is the default for every visitor; dark is opt-in through the nav toggle and remembered in `localStorage`. All colors are CSS custom properties on `:root` and `:root[data-theme="dark"]` in `assets/site.css`.
 
 This site is a deliberate exception to `DESIGN_STANDARDS.md` (decided 2026-08-23). Do not run `designcheck.py` against it.
