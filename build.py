@@ -8,67 +8,62 @@ ed = data["editorial"]
 GH = "https://github.com/lyhjeremy/"
 PAGES = "https://lyhjeremy.github.io/"
 e = html.escape
-MED = "assets/shots/med/"
+CARD, MED = "assets/shots/card/", "assets/shots/med/"
+NAMES = {slug: name for sec in data["sections"] for slug, name, _ in sec["projects"]}
 
-def links(slug, code=False):
-    out = [f'<a class="chev" href="{PAGES}{slug}/">Open the site</a>',
-           f'<a class="chev" href="{PAGES}{slug}/overview/">Read the writeup</a>']
-    if code:
-        out.append(f'<a class="chev" href="{GH}{slug}">View the code</a>')
-    return "".join(out)
-
-def tile(slug, eyebrow, headline, text, *, lead=False, stat=None, img=True, code=False, tone=""):
-    cls = ("tile lead " if lead else "tile ") + tone
-    h = f'<h3>{e(headline)}</h3>'
-    st = f'<div class="stat">{e(stat)}</div>' if stat else ""
-    media = (f'<div class="media"><a href="{PAGES}{slug}/"><img src="{MED}{slug}.jpg" '
-             f'alt="{e(headline)}" loading="lazy"></a></div>') if img else ""
-    return (f'<article class="{cls}"><div class="copy">'
-            f'<p class="eyebrow">{e(eyebrow)}</p>{st}{h}<p>{e(text)}</p>'
-            f'<div class="links">{links(slug, code)}</div></div>{media}</article>')
-
-# featured
-L = ed["lead"]
-featured = tile(L["slug"], "SkillCompass", L["headline"], L["deck"], lead=True, code=True, tone="dark")
 TONES = {"leeway": "blue", "world-record-half-lives": "green", "marathon-heat-tax": "orange",
          "cantonese-learner-v2": "pink", "cellar-scanner": "pink", "menu-decoder": "orange",
          "receipt-auditor": "green", "race-day-copilot": "blue",
          "marathon-pacing-decay": "purple", "love-island-lexical-analysis": "teal"}
-briefs = "".join(
-    tile(b["slug"], b["kicker"].split("/")[-1].strip().capitalize(), b["headline"], b["text"], tone=TONES[b["slug"]])
-    for b in ed["briefs"])
-
-# fine-tuning series
-S = ed["series"]
-series = "".join(
-    tile(r["slug"], r["name"], r["short"], r["note"][0].upper() + r["note"][1:] + ".", stat=r["stat"], tone=TONES[r["slug"]])
-    for r in S["rows"])
-
-# data stories + numbers
-ST = ed["stories"]
-m = ST["main"]
-stories_main = tile(m["slug"], "Wine Score Inflation", m["headline"], m["text"], lead=True, tone="dark-purple")
-NAMES = {slug: name for sec in data["sections"] for slug, name, _ in sec["projects"]}
-stories_side = "".join(
-    tile(x["slug"], NAMES[x["slug"]], x["headline"], x["text"], tone=TONES[x["slug"]]) for x in ST["side"])
+GROUP_TONES = {"featured": "blue", "applied-ai": "orange", "genai": "purple", "running": "green",
+               "language": "pink", "consumer": "teal", "tools": "blue"}
 STAT_TONES = ["blue", "green", "orange", "purple", "pink"]
+
+def links(slug, code=False, short=False):
+    a, b = ("Site", "Writeup") if short else ("Open the site", "Read the writeup")
+    out = [f'<a class="chev" href="{PAGES}{slug}/">{a}</a>', f'<a class="chev" href="{PAGES}{slug}/overview/">{b}</a>']
+    if code:
+        out.append(f'<a class="chev" href="{GH}{slug}">Code</a>')
+    return "".join(out)
+
+def card(slug, eyebrow, headline, text="", *, tone="", big=False, stat=None, img=MED, cls="", code=False):
+    c = " ".join(x for x in ["card", tone, "big" if big else "", cls] if x)
+    st = f'<div class="stat">{e(stat)}</div>' if stat else ""
+    p = f'<p>{e(text)}</p>' if text else ""
+    return (f'<article class="{c}"><a class="pic" href="{PAGES}{slug}/">'
+            f'<img class="shot" src="{img}{slug}.jpg" alt="{e(headline)}" loading="lazy" width="720" height="450"></a>'
+            f'<div class="body"><p class="eyebrow">{e(eyebrow)}</p>{st}'
+            f'<h3><a href="{GH}{slug}">{e(headline)}</a></h3>{p}'
+            f'<div class="links">{links(slug, code, short=cls=="mini")}</div></div></article>')
+
+L = ed["lead"]
+featured = (card(L["slug"], "SkillCompass", L["headline"], L["deck"], tone="dark", big=True, cls="span-2", code=True)
+            + "".join(card(b["slug"], b["kicker"].split("/")[-1].strip().capitalize(), b["headline"], b["text"],
+                           tone=TONES[b["slug"]]) for b in ed["briefs"]))
+S = ed["series"]
+series = "".join(card(r["slug"], r["name"], r["short"], r["note"][0].upper() + r["note"][1:] + ".",
+                      tone=TONES[r["slug"]], stat=r["stat"]) for r in S["rows"])
+ST = ed["stories"]; m = ST["main"]
+stories = (card(m["slug"], NAMES[m["slug"]], m["headline"], m["text"], tone="dark-purple", big=True, cls="span-2")
+           + "".join(card(x["slug"], NAMES[x["slug"]], x["headline"], x["text"], tone=TONES[x["slug"]]) for x in ST["side"]))
 stats = "".join(
     f'<a class="{STAT_TONES[i % 5]}" href="{PAGES}{t["slug"]}/"><span class="v">{e(t["stat"])}</span>'
     f'<span class="l">{e(t["label"])}</span></a>' for i, t in enumerate(ed["numbers"]["tiles"]))
 
-# index
-def thumb(slug):
-    p = ROOT / "assets/shots/thumbs" / f"{slug}.png"
-    return f'<img src="assets/shots/thumbs/{slug}.png" alt="" loading="lazy" width="56" height="38">' if p.exists() else ""
-GROUP_TONES = {"featured": "blue", "applied-ai": "orange", "genai": "purple", "running": "green",
-               "language": "pink", "consumer": "teal", "tools": "blue"}
 groups = "".join(
-    f'<div class="group {GROUP_TONES.get(s["id"], "")}"><h3>{e(s["title"])} <span>({len(s["projects"])})</span></h3><ul>'
-    + "".join(
-        f'<li>{thumb(slug)}<span class="t"><a href="{GH}{slug}">{e(name)}</a></span>'
-        f'<span class="go"><a href="{PAGES}{slug}/">Site</a><a href="{PAGES}{slug}/overview/">Writeup</a></span></li>'
-        for slug, name, _ in s["projects"])
-    + '</ul></div>' for s in data["sections"])
+    f'<div class="group-head {GROUP_TONES.get(s["id"], "")}"><h3>{e(s["title"])}</h3><span>{len(s["projects"])}</span></div>'
+    f'<div class="grid cols-4">'
+    + "".join(card(slug, "", name, tone=GROUP_TONES.get(s["id"], ""), img=CARD, cls="mini") for slug, name, _ in s["projects"])
+    + '</div>' for s in data["sections"])
+chips = "".join(
+    f'<a class="chip {GROUP_TONES.get(s["id"], "")}" href="#g-{s["id"]}">{e(s["title"])} · {len(s["projects"])}</a>'
+    for s in data["sections"])
+# anchor ids on group heads
+for s in data["sections"]:
+    groups = groups.replace(f'<div class="group-head {GROUP_TONES.get(s["id"], "")}"><h3>{e(s["title"])}</h3>',
+                            f'<div class="group-head {GROUP_TONES.get(s["id"], "")}" id="g-{s["id"]}"><h3>{e(s["title"])}</h3>', 1)
+mosaic = "".join(f'<img src="{CARD}{s}.jpg" alt="" loading="lazy">' for s in
+                 ["marathon-heat-tax", "wine-score-inflation", "podcastify", "world-record-half-lives", "love-island-lexical-analysis", "epub-to-audiobook"])
 n = sum(len(s["projects"]) for s in data["sections"])
 
 page = f'''<!doctype html>
@@ -99,39 +94,38 @@ try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.doc
 
 <main id="main">
 <header class="hero wrap">
-  <h1>Jeremy Lee</h1>
-  <p class="sub">Data scientist. UCLA Anderson MSBA.<br><b>{n} projects, all live.</b></p>
-  <div class="cta">
-    <a class="chev" href="#featured">See the work</a>
-    <a class="chev" href="https://github.com/lyhjeremy">github.com/lyhjeremy</a>
+  <div>
+    <h1>Jeremy Lee</h1>
+    <p class="sub">Data scientist, UCLA Anderson MSBA. Models, decision tools and data stories: <b>{n} projects, all live.</b></p>
+    <div class="cta"><a class="chev" href="#featured">See the work</a><a class="chev" href="https://github.com/lyhjeremy">github.com/lyhjeremy</a><a class="chev" href="#colophon">About</a></div>
+    <div class="chips">{chips}</div>
   </div>
+  <div class="mosaic" aria-hidden="true">{mosaic}</div>
 </header>
 
 <section class="section wrap" id="featured">
-  <div class="section-head"><h2>Featured.</h2><p>Five projects that show the range: a full-stack product, a decision tool, two data stories and a language app.</p></div>
-  {featured}
-  <div class="grid-2">{briefs}</div>
+  <div class="section-head"><h2>Featured</h2><p>A product, a decision tool, two data stories, a language app.</p></div>
+  <div class="grid cols-3">{featured}</div>
 </section>
 
 <div class="band"><section class="section wrap" id="series">
-  <div class="section-head"><h2>The fine-tuning series.</h2><p>{e(S["intro"])}</p></div>
-  <div class="grid-2">{series}</div>
+  <div class="section-head"><h2>The fine-tuning series</h2><p>Four photo-to-data apps, each with a locally fine-tuned LoRA benchmarked against Claude zero-shot.</p></div>
+  <div class="grid cols-4">{series}</div>
 </section></div>
 
 <section class="section wrap" id="stories">
-  <div class="section-head"><h2>Data stories.</h2><p>{e(ST["intro"])}</p></div>
-  {stories_main}
-  <div class="grid-2">{stories_side}</div>
-  <div class="stats">{stats}</div>
+  <div class="section-head"><h2>Data stories</h2><p>Findings from the analysis projects, with the chart that carries each.</p></div>
+  <div class="grid cols-4">{stories}</div>
+  <div class="grid cols-5 stats" style="margin-top:14px">{stats}</div>
 </section>
 
-<div class="band" style="margin-bottom:0"><section class="section wrap" id="index">
-  <div class="section-head"><h2>All {n} projects.</h2><p>Grouped the way I file them. The name opens the code.</p></div>
-  <div class="index">{groups}</div>
+<div class="band"><section class="section wrap" id="index">
+  <div class="section-head"><h2>All {n} projects</h2><p>Grouped the way I file them. The name opens the code.</p></div>
+  {groups}
 </section></div>
 </main>
 
-<footer class="footer">
+<footer class="footer" id="colophon">
   <div class="wrap">
     <div class="cols">
       <div><h4>Modeling</h4><ul><li>scikit-learn, PyTorch, XGBoost</li><li>Regression, classification, clustering</li><li>Time series, neural networks</li><li>Causal inference, survival analysis</li><li>A/B testing</li></ul></div>
@@ -139,7 +133,7 @@ try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.doc
       <div><h4>GenAI and agents</h4><ul><li>LLM prompting, RAG, embeddings</li><li>Vector databases, fine-tuning</li><li>OpenAI and Anthropic APIs</li><li>LangChain, LangGraph</li><li>Tool use, retrieval pipelines</li></ul></div>
       <div><h4>Data and deployment</h4><ul><li>Python, R, SQL</li><li>Snowflake, Airflow, Spark</li><li>Tableau, Power BI</li><li>Git, GitHub Pages, Streamlit</li></ul></div>
     </div>
-    <div class="about" style="padding:20px 0;border-bottom:1px solid var(--line)">
+    <div class="about">
       <p>Co-founder and Chief Strategy Officer at Casual Ace Learning Centre: grew enrollment 5.2x to over 1,000 students across six centers. MSBA, UCLA Anderson; BBA, University of Hong Kong. 14 marathons, Berlin personal best 2:48. WSET Level 3 in wine.</p>
       <p><a href="https://www.linkedin.com/in/jeremylyh/">LinkedIn</a> · <a href="mailto:lyhjeremy@gmail.com">Email</a> · <a href="https://github.com/lyhjeremy">GitHub</a> · Terminal version: <code>npx lyhjeremy</code></p>
     </div>
@@ -158,7 +152,7 @@ try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.doc
   function render(){{var dark=current()==="dark";btn.textContent=dark?"Light":"Dark";btn.setAttribute("aria-pressed",dark?"true":"false");}}
   btn.hidden=false;render();
   btn.addEventListener("click",function(){{
-    var next=current()==="light"?"dark":"light";
+    var next=current()==="dark"?"light":"dark";
     root.setAttribute("data-theme",next);
     try{{localStorage.setItem("theme",next);}}catch(err){{}}
     render();

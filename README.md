@@ -15,10 +15,10 @@ Portfolio landing page at [lyhjeremy.github.io](https://lyhjeremy.github.io/). P
     chrome --headless=new --window-size=1100,800 --force-device-scale-factor=2 --screenshot=assets/shots/<slug>.png https://lyhjeremy.github.io/<slug>/
     sips -Z 1600 assets/shots/<slug>.png
 
-If a site will not render headless (Leeway's map, for example), use a screenshot from its writeup: the images under `https://lyhjeremy.github.io/<slug>/overview/` are real captures. Derived sizes used by the page: `assets/shots/med/` (16:10 tile images, JPEG) and `assets/shots/thumbs/` (144x96 index thumbs). The crop code is in the git history of this README's commit; regenerate with PIL if a source changes.
+If a site will not render headless (Leeway's map, for example), use a screenshot from its writeup: the images under `https://lyhjeremy.github.io/<slug>/overview/` are real captures. Derived sizes used by the page: `assets/shots/med/` (1000px 16:10 JPEGs for featured cards) and `assets/shots/card/` (720px 16:10 JPEGs for every project card and the hero mosaic). The crop code is in the git history of this README's commit; regenerate with PIL if a source changes.
 
 ## Styling
 
-The page follows apple.com conventions: system sans (SF on Apple devices, Helvetica/Arial elsewhere), white and `#f5f5f7` surfaces, rounded tiles, chevron links. Tiles carry one of six tints (blue, green, orange, purple, pink, teal) mapped to project categories in `build.py` (`TONES`, `STAT_TONES`, `GROUP_TONES`); the lead tiles use a dark gradient. Light is the default for every visitor; dark is opt-in through the nav toggle and remembered in `localStorage`. All colors are CSS custom properties on `:root` and `:root[data-theme="dark"]` in `assets/site.css`.
+A compact, image-first card grid in apple.com idiom: system sans (SF on Apple devices, Helvetica/Arial elsewhere), white and `#f5f5f7` bands, rounded cards that lead with the project screenshot, chevron links. Cards carry one of six tints (blue, green, orange, purple, pink, teal) mapped to project categories in `build.py` (`TONES`, `STAT_TONES`, `GROUP_TONES`); the lead tiles use a dark gradient. Light is the default for every visitor; dark is opt-in through the nav toggle and remembered in `localStorage`. All colors are CSS custom properties on `:root` and `:root[data-theme="dark"]` in `assets/site.css`.
 
 This site is a deliberate exception to `DESIGN_STANDARDS.md` (decided 2026-08-23). Do not run `designcheck.py` against it.
