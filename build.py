@@ -136,7 +136,7 @@ try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.doc
     </div>
     <div class="about">
       <p>Co-founder and Chief Strategy Officer at Casual Ace Learning Centre: grew enrollment 5.2x to over 1,000 students across six centers. MSBA, UCLA Anderson; BBA, University of Hong Kong. 14 marathons, Berlin personal best 2:48. WSET Level 3 in wine.</p>
-      <p><a href="https://www.linkedin.com/in/jeremylyh/">LinkedIn</a> · <a href="mailto:lyhjeremy@gmail.com">Email</a> · <a href="https://github.com/lyhjeremy">GitHub</a> · Terminal version: <code>npx lyhjeremy</code></p>
+      <p><a href="https://www.linkedin.com/in/jeremylyh/">LinkedIn</a> · <a href="mailto:lyhjeremy@gmail.com">Email</a> · <a href="https://github.com/lyhjeremy">GitHub</a></p>
     </div>
     <div class="legal">
       <span>Screenshots are captures of the live sites. No analytics, no third-party requests.</span>
